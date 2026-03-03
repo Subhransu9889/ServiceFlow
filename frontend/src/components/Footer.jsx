@@ -24,7 +24,6 @@ export default function Footer() {
             <a href="#">About</a>
             <a href="#">Contact</a>
             <a href="#">Terms</a>
-            <a href="#">Admin Login</a>
           </nav>
         </div>
       </footer>

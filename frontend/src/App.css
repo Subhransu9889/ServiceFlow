@@ -175,6 +175,7 @@ p {
   font-size: 0.9rem;
   font-weight: 500;
   transition: color 0.18s;
+  cursor: pointer;
 }
 
 .site-nav a:hover {
@@ -979,6 +980,7 @@ p {
   font-size: 0.86rem;
   font-weight: 500;
   transition: color 0.18s;
+  cursor: pointer;
 }
 
 .footer-nav a:hover {

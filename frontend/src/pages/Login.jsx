@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' })
@@ -31,7 +32,7 @@ export default function Login() {
     setLoading(true)
     setError('')
     try {
-      const response = await axios.post('https://serviceflow-wwo1.onrender.com/api/users/login', formData)
+      const response = await axios.post(apiUrl('/api/users/login'), formData)
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       

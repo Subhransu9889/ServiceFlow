@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Star, MapPin, Clock, User, DollarSign, FileText, Image } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
+import { apiUrl } from '../config/api';
 
 const TimelineStep = ({ step, completed, current, label }) => (
   <div className="flex flex-col items-center">
@@ -66,7 +67,7 @@ export default function BookingDetails() {
   const fetchBooking = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}`), {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -96,7 +97,7 @@ export default function BookingDetails() {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/reschedule`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/reschedule`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -124,7 +125,7 @@ export default function BookingDetails() {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/cancel`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/cancel`), {
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`
@@ -155,7 +156,7 @@ export default function BookingDetails() {
         filesToDataUrls(afterImages)
       ]);
 
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/status`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -187,7 +188,7 @@ export default function BookingDetails() {
     try {
       setActionLoading(true);
       const token = localStorage.getItem('token');
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/status`, {
+      const response = await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -213,7 +214,7 @@ export default function BookingDetails() {
   const handleSubmitReview = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/reviews', {
+      const response = await fetch(apiUrl('/api/reviews'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

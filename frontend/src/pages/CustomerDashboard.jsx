@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Briefcase, Clock, CheckCircle } from 'lucide-react';
 import SummaryCard from '../components/SummaryCard';
 import BookingCard from '../components/BookingCard';
+import { apiUrl } from '../config/api';
 
 export default function CustomerDashboard() {
   const navigate = useNavigate();
@@ -18,7 +19,7 @@ export default function CustomerDashboard() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/bookings', {
+      const response = await fetch(apiUrl('/api/bookings'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }

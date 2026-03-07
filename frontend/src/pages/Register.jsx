@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Mail, Lock, Eye, EyeOff, ArrowRight, User, Phone, CheckCircle } from 'lucide-react'
 import axios from 'axios'
+import { apiUrl } from '../config/api'
 
 export default function Register() {
   const staticCategories = ['Plumbing', 'Cleaning', 'Electrical', 'Painting', 'AC Repair'];
@@ -39,7 +40,7 @@ export default function Register() {
 
   // load categories from server
   useEffect(() => {
-    axios.get('https://serviceflow-wwo1.onrender.com/api/categories')
+    axios.get(apiUrl('/api/categories'))
       .then(res => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setCategories(res.data.map(c => c.name));
@@ -59,7 +60,7 @@ export default function Register() {
     setLoading(true)
     setError('')
     try {
-      const response = await axios.post('https://serviceflow-wwo1.onrender.com/api/users/register', formData)
+      const response = await axios.post(apiUrl('/api/users/register'), formData)
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       

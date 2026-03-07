@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Clock, CheckCircle, AlertCircle, ToggleRight, ToggleLeft, Briefcase, TrendingUp, CheckCircle2 } from 'lucide-react';
 import BookingCard from '../components/BookingCard';
 import { mockProviderBookings, mockProviderProfile, mockProviderStats } from '../data/mockProviders';
+import { apiUrl } from '../config/api';
 
 export default function ProviderDashboard() {
   const navigate = useNavigate();
@@ -25,7 +26,7 @@ export default function ProviderDashboard() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/bookings', {
+      const response = await fetch(apiUrl('/api/bookings'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -49,7 +50,7 @@ export default function ProviderDashboard() {
   const fetchProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/providers/profile', {
+      const response = await fetch(apiUrl('/api/providers/profile'), {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -76,7 +77,7 @@ export default function ProviderDashboard() {
   const toggleAvailability = async () => {
     try {
       const token = localStorage.getItem('token');
-      await fetch('https://serviceflow-wwo1.onrender.com/api/providers/profile', {
+      await fetch(apiUrl('/api/providers/profile'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ export default function ProviderDashboard() {
   const saveProfile = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/providers/profile', {
+      const response = await fetch(apiUrl('/api/providers/profile'), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -127,7 +128,7 @@ export default function ProviderDashboard() {
   const handleAccept = async (bookingId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/status`, {
+      await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -144,7 +145,7 @@ export default function ProviderDashboard() {
   const handleReject = async (bookingId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/cancel`, {
+      await fetch(apiUrl(`/api/bookings/${bookingId}/cancel`), {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -159,7 +160,7 @@ export default function ProviderDashboard() {
   const handleStartJob = async (bookingId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/status`, {
+      await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -176,7 +177,7 @@ export default function ProviderDashboard() {
   const handleMarkCompleted = async (bookingId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`https://serviceflow-wwo1.onrender.com/api/bookings/${bookingId}/status`, {
+      await fetch(apiUrl(`/api/bookings/${bookingId}/status`), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -476,4 +477,3 @@ export default function ProviderDashboard() {
     </div>
   );
 }
-

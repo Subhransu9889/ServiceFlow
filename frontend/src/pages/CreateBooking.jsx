@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MapPin, Clock, FileText, Image, DollarSign } from 'lucide-react';
+import { apiUrl } from '../config/api';
 
 export default function CreateBooking() {
   const location = useLocation();
@@ -48,7 +49,7 @@ export default function CreateBooking() {
         priceAtBooking: provider.pricing
       };
 
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/bookings', {
+      const response = await fetch(apiUrl('/api/bookings'), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

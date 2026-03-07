@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, Star, Clock, DollarSign } from 'lucide-react';
+import { apiUrl } from '../config/api';
 
 export default function BrowseServices() {
   const [services, setServices] = useState([]);
@@ -19,7 +20,7 @@ export default function BrowseServices() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/categories');
+      const response = await fetch(apiUrl('/api/categories'));
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -34,7 +35,7 @@ export default function BrowseServices() {
       if (filters.category) queryParams.append('category', filters.category);
       if (filters.city) queryParams.append('city', filters.city);
 
-      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/providers?${queryParams}`);
+      const response = await fetch(`${apiUrl('/api/providers')}?${queryParams}`);
       const data = await response.json();
       setServices(data);
     } catch (error) {

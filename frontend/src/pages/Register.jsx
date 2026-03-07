@@ -39,7 +39,7 @@ export default function Register() {
 
   // load categories from server
   useEffect(() => {
-    axios.get('http://localhost:8000/api/categories')
+    axios.get('https://serviceflow-wwo1.onrender.com/api/categories')
       .then(res => {
         if (Array.isArray(res.data) && res.data.length > 0) {
           setCategories(res.data.map(c => c.name));
@@ -59,7 +59,7 @@ export default function Register() {
     setLoading(true)
     setError('')
     try {
-      const response = await axios.post('http://localhost:8000/api/users/register', formData)
+      const response = await axios.post('https://serviceflow-wwo1.onrender.com/api/users/register', formData)
       localStorage.setItem('token', response.data.token)
       localStorage.setItem('user', JSON.stringify(response.data.user))
       

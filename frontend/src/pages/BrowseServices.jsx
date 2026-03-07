@@ -19,7 +19,7 @@ export default function BrowseServices() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/categories');
+      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/categories');
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -34,7 +34,7 @@ export default function BrowseServices() {
       if (filters.category) queryParams.append('category', filters.category);
       if (filters.city) queryParams.append('city', filters.city);
 
-      const response = await fetch(`http://localhost:8000/api/providers?${queryParams}`);
+      const response = await fetch(`https://serviceflow-wwo1.onrender.com/api/providers?${queryParams}`);
       const data = await response.json();
       setServices(data);
     } catch (error) {

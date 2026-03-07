@@ -18,7 +18,7 @@ export default function CustomerDashboard() {
   const fetchBookings = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:8000/api/bookings', {
+      const response = await fetch('https://serviceflow-wwo1.onrender.com/api/bookings', {
         headers: {
           'Authorization': `Bearer ${token}`
         }

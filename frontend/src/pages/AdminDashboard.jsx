@@ -24,10 +24,10 @@ export default function AdminDashboard() {
 
       // Fetch stats
       const [usersRes, providersRes, bookingsRes, reviewsRes] = await Promise.all([
-        fetch('http://localhost:8000/api/users/admin/all', { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch('http://localhost:8000/api/providers/admin/all', { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch('http://localhost:8000/api/bookings', { headers: { 'Authorization': `Bearer ${token}` } }),
-        fetch('http://localhost:8000/api/reviews/admin/all', { headers: { 'Authorization': `Bearer ${token}` } })
+        fetch('https://serviceflow-wwo1.onrender.com/api/users/admin/all', { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch('https://serviceflow-wwo1.onrender.com/api/providers/admin/all', { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch('https://serviceflow-wwo1.onrender.com/api/bookings', { headers: { 'Authorization': `Bearer ${token}` } }),
+        fetch('https://serviceflow-wwo1.onrender.com/api/reviews/admin/all', { headers: { 'Authorization': `Bearer ${token}` } })
       ]);
 
       const users = await usersRes.json();
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
       setReviews(reviews);
 
       // Fetch categories
-      const categoriesRes = await fetch('http://localhost:8000/api/categories');
+      const categoriesRes = await fetch('https://serviceflow-wwo1.onrender.com/api/categories');
       const categoriesData = await categoriesRes.json();
       setCategories(categoriesData);
 
@@ -61,7 +61,7 @@ export default function AdminDashboard() {
   const handleApproveProvider = async (providerId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:8000/api/providers/${providerId}/approve`, {
+      await fetch(`https://serviceflow-wwo1.onrender.com/api/providers/${providerId}/approve`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export default function AdminDashboard() {
   const handleRejectProvider = async (providerId) => {
     try {
       const token = localStorage.getItem('token');
-      await fetch(`http://localhost:8000/api/providers/${providerId}/approve`, {
+      await fetch(`https://serviceflow-wwo1.onrender.com/api/providers/${providerId}/approve`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ export default function AdminDashboard() {
     if (categoryName) {
       try {
         const token = localStorage.getItem('token');
-        await fetch('http://localhost:8000/api/categories', {
+        await fetch('https://serviceflow-wwo1.onrender.com/api/categories', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export default function AdminDashboard() {
     if (confirm('Are you sure you want to delete this category?')) {
       try {
         const token = localStorage.getItem('token');
-        await fetch(`http://localhost:8000/api/categories/${categoryId}`, {
+        await fetch(`https://serviceflow-wwo1.onrender.com/api/categories/${categoryId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -133,7 +133,7 @@ export default function AdminDashboard() {
     if (confirm('Delete this review?')) {
       try {
         const token = localStorage.getItem('token');
-        await fetch(`http://localhost:8000/api/reviews/${reviewId}`, {
+        await fetch(`https://serviceflow-wwo1.onrender.com/api/reviews/${reviewId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`

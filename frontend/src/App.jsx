@@ -7,8 +7,11 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import BrowseServices from './pages/BrowseServices'
+import CreateBooking from './pages/CreateBooking'
 import CustomerDashboard from './pages/CustomerDashboard'
 import ProviderDashboard from './pages/ProviderDashboard'
+import AdminDashboard from './pages/AdminDashboard'
 import BookingDetails from './pages/BookingDetails'
 
 function AppContent() {
@@ -24,6 +27,7 @@ function AppContent() {
     if (token && location.pathname === '/') {
       const user = JSON.parse(localStorage.getItem('user') || '{}');
       if (user.role === 'provider') navigate('/provider-dashboard');
+      else if (user.role === 'admin') navigate('/admin-dashboard');
       else navigate('/customer-dashboard');
     }
   }, [location.pathname, navigate]);
@@ -45,6 +49,24 @@ function AppContent() {
         <Route path="/register" element={<Register />} />
         
         <Route
+          path="/browse-services"
+          element={
+            <ProtectedRoute requiredRole="customer">
+              <BrowseServices />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/create-booking"
+          element={
+            <ProtectedRoute requiredRole="customer">
+              <CreateBooking />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
           path="/customer-dashboard"
           element={
             <ProtectedRoute requiredRole="customer">
@@ -52,12 +74,21 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/provider-dashboard"
           element={
             <ProtectedRoute requiredRole="provider">
               <ProviderDashboard />
+            </ProtectedRoute>
+          }
+        />
+        
+        <Route
+          path="/admin-dashboard"
+          element={
+            <ProtectedRoute requiredRole="admin">
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />

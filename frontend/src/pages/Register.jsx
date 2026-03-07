@@ -4,12 +4,21 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight, User, Phone, CheckCircle } from 'l
 import axios from 'axios'
 
 export default function Register() {
+  const staticCategories = ['Plumbing', 'Cleaning', 'Electrical', 'Painting', 'AC Repair'];
+  const [categories, setCategories] = useState(staticCategories);
+
   const [formData, setFormData] = useState({ 
     name: '', 
     email: '', 
     password: '', 
     phone: '', 
-    role: 'customer' 
+    role: 'customer',
+    // provider-specific
+    category: '',
+    city: '',
+    bio: '',
+    pricing: '',
+    profileImage: ''
   })
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -23,9 +32,23 @@ export default function Register() {
     if (token && storedUser) {
       const user = JSON.parse(storedUser);
       if (user.role === 'provider') navigate('/provider-dashboard');
+      else if (user.role === 'admin') navigate('/admin-dashboard');
       else navigate('/customer-dashboard');
     }
   }, [navigate]);
+
+  // load categories from server
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/categories')
+      .then(res => {
+        if (Array.isArray(res.data) && res.data.length > 0) {
+          setCategories(res.data.map(c => c.name));
+        }
+      })
+      .catch(() => {
+        // ignore, keep static list
+      });
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -44,6 +67,8 @@ export default function Register() {
       const role = response.data.user.role;
       if (role === 'provider') {
         navigate('/provider-dashboard')
+      } else if (role === 'admin') {
+        navigate('/admin-dashboard')
       } else {
         navigate('/customer-dashboard')
       }
@@ -201,6 +226,80 @@ export default function Register() {
               </label>
             </div>
           </div>
+
+          {/* provider details */}
+          {formData.role === 'provider' && (
+            <div className="space-y-4 p-4 bg-blue-50/30 rounded-xl border border-blue-100">
+              <h3 className="text-lg font-semibold text-slate-900">Provider profile</h3>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 ml-1">Category</label>
+                <select
+                  name="category"
+                  required
+                  className="block w-full pl-3 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+                  value={formData.category}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a category</option>
+                  {categories.map(cat => (
+                    <option key={cat} value={cat}>{cat}</option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 ml-1">City / Area</label>
+                <input
+                  type="text"
+                  name="city"
+                  required
+                  className="block w-full pl-10 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-slate-900 transition-all placeholder:text-slate-400"
+                  placeholder="e.g. Bangalore"
+                  value={formData.city}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 ml-1">Hourly pricing (₹)</label>
+                <input
+                  type="number"
+                  name="pricing"
+                  required
+                  min="0"
+                  className="block w-full pl-10 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-slate-900 transition-all placeholder:text-slate-400"
+                  placeholder="500"
+                  value={formData.pricing}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 ml-1">Short bio</label>
+                <textarea
+                  name="bio"
+                  rows="3"
+                  className="block w-full p-2 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-slate-900 transition-all placeholder:text-slate-400"
+                  placeholder="Describe your service expertise..."
+                  value={formData.bio}
+                  onChange={handleChange}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-semibold text-slate-700 ml-1">Profile image URL (optional)</label>
+                <input
+                  type="url"
+                  name="profileImage"
+                  className="block w-full pl-10 pr-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-slate-900 transition-all placeholder:text-slate-400"
+                  placeholder="https://example.com/photo.jpg"
+                  value={formData.profileImage}
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+          )}
 
           <button
             type="submit"

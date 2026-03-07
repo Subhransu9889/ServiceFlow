@@ -30,6 +30,8 @@ export default function Header() {
   const handleDashboard = () => {
     if (user?.role === 'provider') {
       navigate('/provider-dashboard');
+    } else if (user?.role === 'admin') {
+      navigate('/admin-dashboard');
     } else {
       navigate('/customer-dashboard');
     }

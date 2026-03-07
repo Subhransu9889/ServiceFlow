@@ -53,7 +53,7 @@ Requested → Confirmed → In-progress → Completed → Cancelled
 
 ### 🛠 Service Provider
 
-- Create and manage professional profile  
+- Create and manage professional profile (category, city/area, hourly pricing, short bio, optional profile image)  
 - Toggle availability status  
 - Accept or reject bookings  
 - Update job status  

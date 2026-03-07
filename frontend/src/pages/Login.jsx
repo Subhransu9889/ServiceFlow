@@ -21,6 +21,7 @@ export default function Login() {
     if (token && storedUser) {
       const user = JSON.parse(storedUser);
       if (user.role === 'provider') navigate('/provider-dashboard');
+      else if (user.role === 'admin') navigate('/admin-dashboard');
       else navigate('/customer-dashboard');
     }
   }, [navigate]);
@@ -38,6 +39,8 @@ export default function Login() {
       const role = response.data.user.role;
       if (role === 'provider') {
         navigate('/provider-dashboard')
+      } else if (role === 'admin') {
+        navigate('/admin-dashboard')
       } else {
         navigate('/customer-dashboard')
       }

@@ -1,7 +1,25 @@
 import { ArrowRight } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import DashboardMockup from './DashboardMockup'
 
 export default function HeroSection() {
+  const navigate = useNavigate();
+
+  const handleGetStarted = () => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    
+    if (token && user.role === 'customer') {
+      navigate('/browse-services');
+    } else {
+      navigate('/login');
+    }
+  };
+
+  const handleBecomeProvider = () => {
+    navigate('/register?role=provider');
+  };
+
   return (
     <section className="hero container" aria-labelledby="hero-heading">
       <div className="hero-copy">
@@ -21,10 +39,10 @@ export default function HeroSection() {
         </p>
 
         <div className="cta-group">
-          <button type="button" className="btn btn-primary btn-lg">
+          <button type="button" className="btn btn-primary btn-lg" onClick={handleGetStarted}>
             Get Started <ArrowRight size={16} />
           </button>
-          <button type="button" className="btn btn-outline btn-lg">
+          <button type="button" className="btn btn-outline btn-lg" onClick={handleBecomeProvider}>
             Become a Provider
           </button>
         </div>

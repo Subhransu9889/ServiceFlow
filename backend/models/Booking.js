@@ -28,6 +28,11 @@ const bookingSchema = new mongoose.Schema(
     notes: {
       type: String,
     },
+    requestImages: [
+      {
+        type: String,
+      },
+    ],
     status: {
       type: String,
       enum: ["Requested", "Confirmed", "In-progress", "Completed", "Cancelled"],

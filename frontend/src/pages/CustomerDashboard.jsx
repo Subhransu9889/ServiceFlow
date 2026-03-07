@@ -1,28 +1,47 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Plus, Briefcase, Clock, CheckCircle } from 'lucide-react';
 import SummaryCard from '../components/SummaryCard';
 import BookingCard from '../components/BookingCard';
-import { mockBookings } from '../data/mockBookings';
 
 export default function CustomerDashboard() {
   const navigate = useNavigate();
-  const rawBookings = useState(mockBookings)[0];
+  const location = useLocation();
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  // restrict bookings to those belonging to the logged in customer
-  const bookings = rawBookings.filter(b => b.customer?.id === user.id);
+  useEffect(() => {
+    fetchBookings();
+  }, []);
+
+  const fetchBookings = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:8000/api/bookings', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const data = await response.json();
+      setBookings(data);
+    } catch (error) {
+      console.error('Error fetching bookings:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Calculate statistics
   const stats = {
     total: bookings.length,
-    active: bookings.filter(b => b.status === 'confirmed' || b.status === 'in-progress').length,
-    completed: bookings.filter(b => b.status === 'completed').length
+    active: bookings.filter(b => b.status === 'Requested' || b.status === 'Confirmed' || b.status === 'In-progress').length,
+    completed: bookings.filter(b => b.status === 'Completed').length
   };
 
   // Get active and upcoming bookings
   const upcomingBookings = bookings.filter(b => 
-    b.status === 'confirmed' || b.status === 'in-progress'
+    b.status === 'Requested' || b.status === 'Confirmed' || b.status === 'In-progress'
   );
 
   const handleViewDetails = (bookingId) => {
@@ -30,12 +49,19 @@ export default function CustomerDashboard() {
   };
 
   const handleBookService = () => {
-    navigate('/book-service');
+    navigate('/browse-services');
   };
 
   return (
     <div className="min-h-[calc(100vh-68px)] bg-white relative z-10">
       <div className="container py-8">
+        {/* Success Message */}
+        {location.state?.message && (
+          <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg mb-6">
+            {location.state.message}
+          </div>
+        )}
+
         {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -77,13 +103,31 @@ export default function CustomerDashboard() {
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           <h2 className="text-xl font-bold text-slate-900 mb-6">Upcoming & Active Bookings</h2>
 
-          {upcomingBookings.length > 0 ? (
+          {loading ? (
+            <div className="text-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="text-slate-600 mt-4">Loading bookings...</p>
+            </div>
+          ) : upcomingBookings.length > 0 ? (
             <div className="booking-list">
               {upcomingBookings.map(booking => (
                 <BookingCard
-                  key={booking.id}
-                  booking={booking}
-                  onViewDetails={() => handleViewDetails(booking.id)}
+                  key={booking._id}
+                  booking={{
+                    id: booking._id,
+                    serviceType: booking.categoryId.name,
+                    provider: {
+                      name: booking.providerId.userId.name,
+                      avatar: booking.providerId.profileImage || `https://i.pravatar.cc/150?u=${booking.providerId.userId.name}`
+                    },
+                    date: new Date(booking.scheduledAt).toLocaleDateString(),
+                    time: new Date(booking.scheduledAt).toLocaleTimeString(),
+                    status: booking.status.toLowerCase(),
+                    address: booking.address,
+                    price: booking.priceAtBooking,
+                    description: booking.notes || 'No description'
+                  }}
+                  onViewDetails={() => handleViewDetails(booking._id)}
                   showAction={true}
                 />
               ))}
@@ -110,9 +154,22 @@ export default function CustomerDashboard() {
             <div className="booking-list">
               {bookings.map(booking => (
                 <BookingCard
-                  key={booking.id}
-                  booking={booking}
-                  onViewDetails={() => handleViewDetails(booking.id)}
+                  key={booking._id}
+                  booking={{
+                    id: booking._id,
+                    serviceType: booking.categoryId.name,
+                    provider: {
+                      name: booking.providerId.userId.name,
+                      rating: 4.8 // TODO: calculate from reviews
+                    },
+                    date: new Date(booking.scheduledAt).toLocaleDateString(),
+                    time: new Date(booking.scheduledAt).toLocaleTimeString(),
+                    status: booking.status.toLowerCase(),
+                    address: booking.address,
+                    price: booking.priceAtBooking,
+                    description: booking.notes || 'No description'
+                  }}
+                  onViewDetails={() => handleViewDetails(booking._id)}
                   showAction={true}
                 />
               ))}

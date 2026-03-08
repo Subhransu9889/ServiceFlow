@@ -107,35 +107,33 @@ The schema is structured to maintain lifecycle integrity and proper data relatio
 
 ## 🖥 Screenshots
 
-> Replace the placeholders below with your actual screenshots.
-
 ### 🏠 Landing Page
 
-![Landing Page Screenshot](./screenshots/landing-page.png)
+![Landing Page Screenshot](/frontend/public/screenshots/Screenshot%202026-03-08%20at%2011.53.08 PM.png)
 
 ---
 
 ### 👤 Customer Dashboard
 
-![Customer Dashboard Screenshot](./screenshots/customer-dashboard.png)
+![Customer Dashboard Screenshot](/frontend/public/screenshots/Screenshot%202026-03-08%20at%2011.55.39 PM.png)
 
 ---
 
 ### 🛠 Provider Dashboard
 
-![Provider Dashboard Screenshot](./screenshots/provider-dashboard.png)
+![Provider Dashboard Screenshot](/frontend/public/screenshots/Screenshot%202026-03-08%20at%2011.56.41 PM.png)
 
 ---
 
 ### 🔄 Booking Lifecycle View
 
-![Booking Status Screenshot](./screenshots/booking-status.png)
+![Booking Status Screenshot](/frontend/public/screenshots/Screenshot%202026-03-08%20at%2011.56.11 PM.png)
 
 ---
 
 ### 🛡 Admin Panel
 
-![Admin Panel Screenshot](./screenshots/admin-panel.png)
+![Admin Panel Screenshot](/frontend/public/screenshots/Screenshot%202026-03-08%20at%2011.57.18 PM.png)
 
 ---
 
@@ -151,8 +149,7 @@ The schema is structured to maintain lifecycle integrity and proper data relatio
 
 ## 🚀 Deployment
 
-Frontend: https://serviceflow-lime.vercel.app/
-Backend: <your-backend-link>
+https://serviceflow-lime.vercel.app/
 
 ---
 

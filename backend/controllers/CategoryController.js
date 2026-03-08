@@ -1,4 +1,6 @@
 const Category = require('../models/Category');
+const Provider = require('../models/Provider');
+const Booking = require('../models/Booking');
 
 // fetch all categories
 exports.getAll = async (req, res) => {
@@ -50,6 +52,19 @@ exports.update = async (req, res) => {
 exports.delete = async (req, res) => {
   try {
     const { id } = req.params;
+
+    // Check for dependencies
+    const providerCount = await Provider.countDocuments({ categoryId: id });
+    const bookingCount = await Booking.countDocuments({ categoryId: id });
+
+    if (providerCount > 0 || bookingCount > 0) {
+      return res.status(400).json({ 
+        message: 'Cannot delete category: it is referenced by ' + 
+                 (providerCount > 0 ? `${providerCount} provider(s)` : '') + 
+                 (providerCount > 0 && bookingCount > 0 ? ' and ' : '') + 
+                 (bookingCount > 0 ? `${bookingCount} booking(s)` : '')
+      });
+    }
 
     const category = await Category.findByIdAndDelete(id);
     if (!category) {

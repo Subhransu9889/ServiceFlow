@@ -42,6 +42,7 @@ body {
   font-family: Inter, system-ui, -apple-system, 'Segoe UI', sans-serif;
   -webkit-font-smoothing: antialiased;
   scroll-behavior: smooth;
+  padding-top: 68px;
 }
 
 h1,
@@ -117,8 +118,10 @@ p {
    Header / Nav
    ============================================================ */
 .site-header {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 100;
   background: rgba(248, 250, 255, 0.88);
   backdrop-filter: blur(14px);

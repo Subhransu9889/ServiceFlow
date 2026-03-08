@@ -3,15 +3,6 @@ import { ArrowRight } from 'lucide-react'
 export default function Footer() {
   return (
     <>
-      <div className="cta-band">
-        <div className="container">
-          <h2>Ready to simplify your home services?</h2>
-          <p>Join thousands of homeowners who trust ServiceFlow every day.</p>
-          <button type="button" className="btn btn-primary btn-lg">
-            Get Started <ArrowRight size={16} />
-          </button>
-        </div>
-      </div>
 
       <footer className="site-footer">
         <div className="container footer-inner">

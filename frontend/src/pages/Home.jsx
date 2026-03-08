@@ -1,3 +1,4 @@
+import GetStarted from '../components/GetStarted'
 import HeroSection from '../components/HeroSection'
 import HowItWorks from '../components/HowItWorks'
 import ServiceCategories from '../components/ServiceCategories'
@@ -10,6 +11,7 @@ export default function Home() {
       <HowItWorks />
       <ServiceCategories />
       <WhyChooseUs />
+      <GetStarted/>
     </main>
   )
 }

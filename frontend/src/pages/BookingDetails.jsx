@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Star, MapPin, Clock, User, DollarSign, FileText, Image } from 'lucide-react';
+import { ArrowLeft, Star, MapPin, Clock, User, DollarSign, FileText, Image, Check } from 'lucide-react';
 import StatusBadge from '../components/StatusBadge';
 import { apiUrl } from '../config/api';
 
@@ -9,13 +9,13 @@ const TimelineStep = ({ step, completed, current, label }) => (
     <div
       className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
         completed
-          ? 'bg-green text-white'
+          ? 'bg-gray-900 text-green-400'
           : current
           ? 'bg-blue text-white ring-4 ring-blue/20'
           : 'bg-slate-200 text-slate-600'
       }`}
     >
-      {completed ? '✓' : step}
+      {completed ? <Check size={16} /> : step}
     </div>
     <p className={`text-xs mt-2 font-medium ${completed ? 'text-green' : current ? 'text-blue' : 'text-slate-500'}`}>
       {label}

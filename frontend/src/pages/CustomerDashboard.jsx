@@ -40,6 +40,17 @@ export default function CustomerDashboard() {
     completed: bookings.filter(b => b.status === 'Completed').length
   };
 
+  const getProviderRating = (provider) => {
+    const reviews = provider?.reviews;
+
+    if (Array.isArray(reviews) && reviews.length > 0) {
+      const total = reviews.reduce((sum, review) => sum + (Number(review?.rating) || 0), 0);
+      return Number((total / reviews.length).toFixed(1));
+    }
+
+    return Number(provider?.rating) || 0;
+  };
+
   // Get active and upcoming bookings
   const upcomingBookings = bookings.filter(b => 
     b.status === 'Requested' || b.status === 'Confirmed' || b.status === 'In-progress'
@@ -161,7 +172,7 @@ export default function CustomerDashboard() {
                     serviceType: booking.categoryId.name,
                     provider: {
                       name: booking.providerId.userId.name,
-                      rating: 4.8 // TODO: calculate from reviews
+                      rating: getProviderRating(booking.providerId)
                     },
                     date: new Date(booking.scheduledAt).toLocaleDateString(),
                     time: new Date(booking.scheduledAt).toLocaleTimeString(),
